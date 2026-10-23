@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eef0f6"><title>Rsayel · SMS Panel</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="status"><span id="clock">21.09 ☾</span><span>▮▮▮ ◉ ▰</span></div>
+<header class="topbar">
+  <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+  <a class="brand" href="#" data-page="dashboard">Rsayel</a>
+  <div class="top-actions">
+    <button class="icon-btn" id="langToggle" title="Language">文A</button>
+    <button class="icon-btn" id="soundToggle" title="Sound">◖))</button>
+    <button class="icon-btn" id="themeToggle" title="Toggle theme">☾</button>
+    <div class="user-wrap">
+      <button class="userbar" id="userToggle"><span class="avatar-mini">R</span><span class="notification-dot">1</span><span class="user-outline">♙</span></button>
+      <div class="dropdown" id="userDropdown">
+        <a href="#" data-page="notifications">✉　 Notifications <b class="notification-dot">1</b></a>
+        <a href="#" data-page="profile">♙　 My Profile</a>
+        <a href="#" data-page="activity">▤　 Activity</a>
+        <hr><a href="#" id="logout">⇥　 <strong>Logout</strong></a>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="nav-label">MAIN</div>
+  <a class="nav-link active" href="#" data-page="dashboard"><span>▦</span>Dashboard</a>
+  <a class="nav-link" href="#" data-page="chat"><span>▱</span>Chat</a>
+  <button class="nav-link nav-expand" data-expand="sms"><span>☻</span>SMS Module <b>›</b></button>
+  <div class="subnav" id="smsSub"><a href="#" data-page="numbers">Numbers</a><a href="#" data-page="messages">Received SMS</a></div>
+  <a class="nav-link" href="#" data-page="test-panel"><span>◐</span>SMS Test Panel</a>
+  <button class="nav-link nav-expand" data-expand="users"><span>◇</span>Users <b>›</b></button>
+  <div class="subnav" id="usersSub"><a href="#" data-page="users">User list</a><a href="#" data-page="agents">Agents</a></div>
+  <div class="nav-label section-label">STATS &amp; FINANCE</div>
+  <a class="nav-link" href="#" data-page="statistics"><span>▥</span>CDR &amp; Statistics</a>
+  <a class="nav-link" href="#" data-page="credits"><span>▤</span>Credit Notes</a>
+  <a class="nav-link" href="#" data-page="payments"><span>▧</span>Payment Requests</a>
+  <button class="nav-link nav-expand" data-expand="account"><span>◐</span>Account <b>›</b></button>
+  <div class="subnav" id="accountSub"><a href="#" data-page="profile">My Profile</a><a href="#" data-page="activity">Activity</a></div>
+</aside>
+<div class="scrim" id="scrim"></div>
+<main class="main" id="main">
+  <section class="page active" id="page-dashboard">
+    <h1>Dashboard</h1><div class="breadcrumbs"><span>Home</span> » Dashboard</div>
+    <div class="numbers-pill"><i></i><span>0 NUMBERS</span><b>·</b><span>0 TODAY</span></div>
+    <hr class="rule">
+    <div class="stats-grid">
+      <article class="stat-card purple"><div>SMS TODAY</div><strong>0</strong><p>Received today</p></article>
+      <article class="stat-card red"><div>SMS THIS WEEK</div><strong>0</strong><p>Received since Monday</p><span class="download-mark">↓</span></article>
+      <article class="stat-card green"><div>EARNINGS TODAY</div><strong>$0.00</strong><p>Earned today</p></article>
+      <article class="stat-card orange"><div>EARNINGS THIS MONTH</div><strong>$0.00</strong><p>Earned since the 1st</p></article>
+    </div>
+    <article class="panel volume"><h2>My volume · last 15 days</h2><p>Daily volume and earnings over the period.</p><div class="chart"><div class="chart-empty">No data available yet</div></div></article>
+    <article class="panel"><h2>Recent activity</h2><p class="muted">Your latest account activity will appear here.</p></article>
+  </section>
+  <section class="page" id="page-profile">
+    <h1>My Profile</h1><div class="breadcrumbs"><span>Home</span> » Account » <b>My Profile</b></div>
+    <p class="page-intro">Personal details, account security, two-factor authentication.</p>
+    <article class="profile-summary panel">
+      <div class="profile-avatar">RA</div><div class="profile-info"><h2>RakibTech</h2><p>@RakibTech ·</p><span class="tag">CLIENT</span><p class="since">since 2026-09-02<br>17:21:48 UTC</p></div><span class="twofa">2FA OFF</span>
+    </article>
+    <form class="panel profile-form" id="profileForm">
+      <h2>PERSONAL DETAILS</h2><p class="muted">visible to admins for support / payout reconciliation</p>
+      <label>FULL NAME<input placeholder="full name" name="fullName"></label>
+      <label>EMAIL<input type="email" placeholder="you@example.com" name="email"></label>
+      <label>CONTACT (PHONE / WHATSAPP)<input placeholder="phone or WhatsApp handle" name="contact"></label>
+      <label>TEAMS<input placeholder="name@company.com" name="teams"></label>
+      <div class="form-footer"><button class="primary-btn" type="submit">Save changes</button></div>
+    </form>
+    <form class="panel profile-form"><h2>ACCOUNT SECURITY</h2><p class="muted">Manage your password and account protection.</p><label>CURRENT PASSWORD<input type="password" placeholder="Current password"></label><label>NEW PASSWORD<input type="password" placeholder="New password"></label><button class="primary-btn" type="button" id="securitySave">Update password</button></form>
+  </section>
+  <section class="page" id="page-chat"><h1>Chat</h1><div class="breadcrumbs"><span>Home</span> » Chat</div><article class="panel empty-state"><div class="empty-icon">▱</div><h2>Messages</h2><p class="muted">Your conversations will appear here when available.</p></article></section>
+  <section class="page" id="page-numbers"><h1>Numbers</h1><div class="breadcrumbs"><span>Home</span> » SMS Module » Numbers</div><article class="panel"><div class="panel-heading"><h2>Available numbers</h2><button class="primary-btn small" id="refreshNumbers">Refresh</button></div><div class="table-wrap"><table><thead><tr><th>NUMBER</th><th>COUNTRY</th><th>STATUS</th></tr></thead><tbody><tr><td colspan="3" class="muted center">No numbers available.</td></tr></tbody></table></div></article></section>
+  <section class="page" id="page-messages"><h1>Received SMS</h1><div class="breadcrumbs"><span>Home</span> » SMS Module » Received SMS</div><article class="panel"><h2>SMS inbox</h2><p class="muted">Received messages will appear here.</p><div class="table-wrap"><table><thead><tr><th>TIME</th><th>NUMBER</th><th>MESSAGE</th></tr></thead><tbody><tr><td colspan="3" class="muted center">No messages yet.</td></tr></tbody></table></div></article></section>
+  <section class="page" id="page-test-panel"><h1>SMS Test Panel</h1><div class="breadcrumbs"><span>Home</span> » SMS Test Panel</div><article class="panel"><h2>Test panel</h2><p class="muted">Use this area to test a configured SMS connection.</p><label>PHONE NUMBER<input placeholder="Enter test number"></label><label>MESSAGE<textarea placeholder="Type a test message"></textarea></label><button class="primary-btn" id="testSend">Send test</button><p class="notice" id="testNotice"></p></article></section>
+  <section class="page" id="page-statistics"><h1>CDR &amp; Statistics</h1><div class="breadcrumbs"><span>Home</span> » CDR &amp; Statistics</div><article class="panel"><h2>Usage statistics</h2><p class="muted">Call detail records and usage summaries will appear here.</p></article></section>
+  <section class="page" id="page-credits"><h1>Credit Notes</h1><div class="breadcrumbs"><span>Home</span> » Credit Notes</div><article class="panel"><h2>Credit notes</h2><p class="muted">No credit notes available.</p></article></section>
+  <section class="page" id="page-payments"><h1>Payment Requests</h1><div class="breadcrumbs"><span>Home</span> » Payment Requests</div><article class="panel"><h2>Payment requests</h2><p class="muted">Your payment requests will appear here.</p></article></section>
+  <section class="page" id="page-users"><h1>Users</h1><div class="breadcrumbs"><span>Home</span> » Users</div><article class="panel"><h2>User list</h2><p class="muted">User records are not connected to a backend.</p></article></section>
+  <section class="page" id="page-agents"><h1>Agents</h1><div class="breadcrumbs"><span>Home</span> » Users » Agents</div><article class="panel"><h2>Agents</h2><p class="muted">Agent records are not connected to a backend.</p></article></section>
+  <section class="page" id="page-notifications"><h1>Notifications</h1><div class="breadcrumbs"><span>Home</span> » Notifications</div><article class="panel"><h2>Notifications</h2><p class="muted">You are all caught up. The badge is demo data.</p></article></section>
+  <section class="page" id="page-activity"><h1>Activity</h1><div class="breadcrumbs"><span>Home</span> » Activity</div><article class="panel"><h2>Account activity</h2><p class="muted">Recent activity records will appear here.</p></article></section>
+</main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="app.js"></script>
+</body></html>
