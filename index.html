@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rsayel - SMS Panel</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f5f6ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        },
+                        bgMain: '#f3f4f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        /* Hide scrollbar for a cleaner look */
+        ::-webkit-scrollbar { display: none; }
+        
+        .gradient-purple { background: linear-gradient(135deg, #8b8cf9 0%, #6366f1 100%); }
+        .gradient-red { background: linear-gradient(135deg, #f87171 0%, #ef4444 100%); }
+        .gradient-green { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); }
+        .gradient-orange { background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%); }
+        
+        .transition-all { transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased h-screen overflow-hidden relative">
+
+    <!-- ================= LOGIN VIEW ================= -->
+    <div id="login-view" class="absolute inset-0 bg-[#5a5e9c] z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-xl p-8 relative overflow-hidden shadow-2xl">
+            <!-- Top Icons -->
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex gap-2">
+                    <button class="w-8 h-8 rounded border border-gray-200 flex items-center justify-center text-gray-500"><i class="fas fa-language"></i></button>
+                    <button class="w-8 h-8 rounded border border-gray-200 flex items-center justify-center text-gray-500"><i class="fas fa-moon"></i></button>
+                </div>
+                <span class="text-[10px] font-bold text-gray-400 border border-gray-300 rounded-full px-3 py-1 uppercase tracking-widest">Test Panel</span>
+            </div>
+
+            <!-- Logo -->
+            <div class="text-center mb-10">
+                <h1 class="text-5xl font-bold text-black tracking-tighter">Rsayel<span class="text-black"><i class="fas fa-comment-dots text-4xl -ml-1"></i></span></h1>
+            </div>
+
+            <h2 class="text-center text-xl font-semibold text-slate-700 mb-8">Account Login</h2>
+
+            <!-- Form -->
+            <form id="login-form" class="space-y-4">
+                <div class="relative">
+                    <i class="fas fa-envelope absolute left-4 top-3.5 text-gray-400"></i>
+                    <input type="text" placeholder="Username" class="w-full bg-slate-100 text-slate-700 rounded-lg pl-12 pr-4 py-3 outline-none focus:ring-2 focus:ring-brand-500 text-sm font-medium">
+                </div>
+                <div class="relative">
+                    <i class="fas fa-lock absolute left-4 top-3.5 text-gray-400"></i>
+                    <input type="password" placeholder="Password" class="w-full bg-slate-100 text-slate-700 rounded-lg pl-12 pr-10 py-3 outline-none focus:ring-2 focus:ring-brand-500 text-sm font-medium">
+                    <i class="fas fa-eye absolute right-4 top-3.5 text-gray-400 cursor-pointer"></i>
+                </div>
+                
+                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-lg py-3 mt-4 transition-colors">LOGIN</button>
+            </form>
+
+            <!-- Social Login -->
+            <div class="flex justify-center gap-4 mt-8">
+                <button class="w-12 h-12 bg-green-400 rounded-xl text-white text-xl flex items-center justify-center hover:bg-green-500 transition"><i class="fab fa-whatsapp"></i></button>
+                <button class="w-12 h-12 bg-blue-400 rounded-xl text-white text-xl flex items-center justify-center hover:bg-blue-500 transition"><i class="fab fa-telegram-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= APP VIEW (MAIN) ================= -->
+    <div id="app-view" class="hidden h-full flex flex-col">
+        
+        <!-- HEADER -->
+        <header class="bg-white h-16 flex items-center justify-between px-4 shadow-sm z-20 shrink-0">
+            <div class="flex items-center gap-4">
+                <button id="open-sidebar" class="w-10 h-10 border border-gray-200 rounded-lg flex items-center justify-center text-slate-700"><i class="fas fa-bars"></i></button>
+                <span class="font-bold text-xl text-slate-800">Rsayel</span>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button class="text-slate-500 hover:text-brand-500"><i class="fas fa-language text-lg"></i></button>
+                <button class="text-slate-500 hover:text-brand-500"><i class="fas fa-volume-up text-lg"></i></button>
+                <button class="text-slate-500 hover:text-brand-500"><i class="fas fa-moon text-lg"></i></button>
+                
+                <div class="relative ml-2">
+                    <button id="profile-dropdown-btn" class="flex items-center gap-2 border border-gray-200 rounded-lg p-1 pr-3">
+                        <div class="w-8 h-8 bg-brand-500 rounded text-white flex items-center justify-center font-bold text-sm">R</div>
+                        <div class="w-5 h-5 bg-red-400 rounded-full text-white text-[10px] flex items-center justify-center font-bold">1</div>
+                        <i class="fas fa-user text-gray-400"></i>
+                    </button>
+
+                    <!-- Dropdown Menu (Image 2) -->
+                    <div id="profile-dropdown" class="hidden absolute right-0 top-14 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-30">
+                        <a href="#" class="flex items-center justify-between px-4 py-3 hover:bg-slate-50 text-slate-700 font-medium text-sm">
+                            <span class="flex items-center gap-3"><i class="fas fa-envelope text-gray-400"></i> Notifications</span>
+                            <span class="w-5 h-5 bg-red-100 text-red-500 rounded-full text-[10px] flex items-center justify-center font-bold">1</span>
+                        </a>
+                        <a href="#" onclick="switchView('profile')" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-slate-700 font-medium text-sm">
+                            <i class="fas fa-user text-gray-400"></i> My Profile
+                        </a>
+                        <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-slate-700 font-medium text-sm">
+                            <i class="fas fa-file-alt text-gray-400"></i> Activity
+                        </a>
+                        <div class="border-t border-gray-100 my-1"></div>
+                        <a href="#" onclick="logout()" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-slate-700 font-medium text-sm">
+                            <i class="fas fa-sign-out-alt text-gray-400"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN BODY -->
+        <div class="flex flex-1 overflow-hidden relative">
+            
+            <!-- SIDEBAR (Image 4) -->
+            <aside id="sidebar" class="absolute inset-y-0 left-0 w-64 bg-[#0f1026] text-gray-300 transform -translate-x-full transition-transform duration-300 z-30 flex flex-col shadow-2xl">
+                <div class="p-6 pb-2 text-xs font-bold text-gray-500 tracking-wider">MAIN</div>
+                <nav class="flex-1 overflow-y-auto">
+                    <a href="#" onclick="switchView('dashboard')" class="flex items-center gap-4 px-6 py-3 bg-[#1a1b35] text-white border-l-4 border-white">
+                        <i class="fas fa-th-large text-lg w-5"></i> Dashboard
+                    </a>
+                    <a href="#" class="flex items-center gap-4 px-6 py-3 hover:bg-[#1a1b35] transition">
+                        <i class="fas fa-comment-dots text-lg w-5"></i> Chat
+                    </a>
+                    <a href="#" class="flex items-center justify-between px-6 py-3 hover:bg-[#1a1b35] transition">
+                        <span class="flex items-center gap-4"><i class="fas fa-sms text-lg w-5"></i> SMS Module</span>
+                        <i class="fas fa-chevron-right text-xs"></i>
+                    </a>
+                    <a href="#" class="flex items-center gap-4 px-6 py-3 hover:bg-[#1a1b35] transition">
+                        <i class="fas fa-chart-pie text-lg w-5"></i> SMS Test Panel
+                    </a>
+                    
+                    <!-- Role based item: Only visible to Agent -->
+                    <a href="#" id="menu-users" class="flex items-center justify-between px-6 py-3 hover:bg-[#1a1b35] transition">
+                        <span class="flex items-center gap-4"><i class="fas fa-users text-lg w-5"></i> Users</span>
+                        <i class="fas fa-chevron-right text-xs"></i>
+                    </a>
+
+                    <div class="p-6 pb-2 mt-4 text-xs font-bold text-gray-500 tracking-wider">STATS & FINANCE</div>
+                    <a href="#" class="flex items-center gap-4 px-6 py-3 hover:bg-[#1a1b35] transition">
+                        <i class="fas fa-chart-bar text-lg w-5"></i> CDR & Statistics
+                    </a>
+                    <a href="#" class="flex items-center gap-4 px-6 py-3 hover:bg-[#1a1b35] transition">
+                        <i class="fas fa-server text-lg w-5"></i> Credit Notes
+                    </a>
+                    <a href="#" class="flex items-center gap-4 px-6 py-3 hover:bg-[#1a1b35] transition">
+                        <i class="fas fa-file-invoice text-lg w-5"></i> Payment Requests
+                    </a>
+                    <a href="#" onclick="switchView('profile')" class="flex items-center justify-between px-6 py-3 hover:bg-[#1a1b35] transition">
+                        <span class="flex items-center gap-4"><i class="fas fa-user-circle text-lg w-5"></i> Account</span>
+                        <i class="fas fa-chevron-right text-xs"></i>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- OVERLAY FOR SIDEBAR -->
+            <div id="sidebar-overlay" class="hidden absolute inset-0 bg-black/50 z-20" onclick="toggleSidebar()"></div>
+
+            <!-- MAIN CONTENT AREA -->
+            <main class="flex-1 overflow-y-auto bg-bgMain relative">
+                
+                <!-- DASHBOARD VIEW -->
+                <div id="dashboard-content" class="p-4 pb-24">
+                    <h1 class="text-2xl font-bold text-slate-800 mb-1">Dashboard</h1>
+                    <div class="text-sm text-slate-500 mb-6 flex items-center gap-2">
+                        <span class="text-brand-500 font-medium">Home</span> <i class="fas fa-chevron-right text-[10px]"></i> <span>Dashboard</span>
+                    </div>
+
+                    <!-- Stat Badge -->
+                    <div class="bg-white rounded-full inline-flex items-center gap-3 px-4 py-1.5 shadow-sm mb-6 border border-gray-100">
+                        <div class="w-3 h-3 bg-brand-500 rounded-full"></div>
+                        <span class="text-xs font-bold text-slate-600 tracking-wider">0 NUMBERS</span>
+                        <span class="text-slate-300">•</span>
+                        <span class="text-xs font-bold text-slate-600 tracking-wider">0 TODAY</span>
+                    </div>
+
+                    <!-- Cards -->
+                    <div class="space-y-4">
+                        <!-- SMS Today -->
+                        <div class="gradient-purple rounded-xl p-5 text-white shadow-md relative overflow-hidden">
+                            <p class="text-xs font-semibold tracking-widest uppercase mb-4 opacity-90">SMS TODAY</p>
+                            <h2 class="text-4xl font-bold mb-1">0</h2>
+                            <p class="text-sm opacity-80">Received today</p>
+                        </div>
+
+                        <!-- SMS This Week -->
+                        <div class="gradient-red rounded-xl p-5 text-white shadow-md relative overflow-hidden">
+                            <p class="text-xs font-semibold tracking-widest uppercase mb-4 opacity-90">SMS THIS WEEK</p>
+                            <h2 class="text-4xl font-bold mb-1">0</h2>
+                            <p class="text-sm opacity-80">Received since Monday</p>
+                            <button class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30"><i class="fas fa-arrow-down text-sm"></i></button>
+                        </div>
+
+                        <!-- Earnings Today -->
+                        <div class="gradient-green rounded-xl p-5 text-white shadow-md relative overflow-hidden">
+                            <p class="text-xs font-semibold tracking-widest uppercase mb-4 opacity-90">EARNINGS TODAY</p>
+                            <h2 class="text-2xl font-bold mb-1">$0.00</h2>
+                            <p class="text-sm opacity-80">Earned today</p>
+                        </div>
+
+                        <!-- Earnings This Month -->
+                        <div class="gradient-orange rounded-xl p-5 text-white shadow-md relative overflow-hidden">
+                            <p class="text-xs font-semibold tracking-widest uppercase mb-4 opacity-90">EARNINGS THIS MONTH</p>
+                            <h2 class="text-2xl font-bold mb-1">$0.00</h2>
+                            <p class="text-sm opacity-80">Earned since the 1st</p>
+                        </div>
+                    </div>
+
+                    <!-- Volume Chart Placeholder -->
+                    <div class="bg-white rounded-xl p-6 mt-6 shadow-sm border border-gray-100 text-center">
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">My volume • <span class="text-slate-400 font-normal">last 15 days</span></h3>
+                        <p class="text-sm text-slate-400">Daily volume and traffic performance for the period.</p>
+                        <!-- Fake Chart lines -->
+                        <div class="h-20 flex items-end justify-center gap-2 mt-4 opacity-30">
+                            <div class="w-6 bg-brand-500 h-1/4 rounded-t"></div>
+                            <div class="w-6 bg-brand-500 h-2/4 rounded-t"></div>
+                            <div class="w-6 bg-brand-500 h-3/4 rounded-t"></div>
+                            <div class="w-6 bg-brand-500 h-full rounded-t"></div>
+                            <div class="w-6 bg-brand-500 h-1/2 rounded-t"></div>
+                            <div class="w-6 bg-brand-500 h-1/3 rounded-t"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROFILE VIEW (Image 1) -->
+                <div id="profile-content" class="hidden p-4 pb-24">
+                    <h1 class="text-2xl font-bold text-slate-800 mb-1">My Profile</h1>
+                    <div class="text-sm text-slate-500 mb-2 flex items-center gap-2">
+                        <span class="text-brand-500 font-medium">Home</span> <i class="fas fa-chevron-right text-[10px]"></i> <span>Account</span> <i class="fas fa-chevron-right text-[10px]"></i> <span>My Profile</span>
+                    </div>
+                    <p class="text-sm text-slate-500 mb-6">Personal details, account security, two-factor authentication.</p>
+
+                    <!-- User Card -->
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 mb-6 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-[#6366f1] rounded-full text-white flex items-center justify-center text-2xl font-bold">RA</div>
+                            <div>
+                                <h2 class="text-xl font-bold text-slate-800">RakibTech</h2>
+                                <p class="text-sm text-slate-400">@RakibTech •</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span id="role-badge" class="text-[10px] font-bold text-brand-500 border border-brand-500 rounded-full px-2 py-0.5 uppercase tracking-wider">Client</span>
+                                    <span class="text-slate-300">•</span>
+                                    <span class="text-xs text-slate-400">since 2026-09-02</span>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-1">17:21:48 UTC</p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-100 px-3 py-1.5 rounded text-xs font-bold text-slate-500 tracking-wider">2FA OFF</div>
+                    </div>
+
+                    <!-- FORM -->
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                        <h3 class="text-sm font-bold text-slate-800 tracking-wider mb-1">PERSONAL DETAILS</h3>
+                        <p class="text-xs text-slate-400 mb-6">visible to admins for support / payout reconciliation</p>
+
+                        <!-- ROLE SIMULATION TOGGLE (For testing purposes) -->
+                        <div class="mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200 flex justify-between items-center">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-700">Simulate Role</p>
+                                <p class="text-xs text-slate-500">Switch between Agent & Client view</p>
+                            </div>
+                            <select id="role-selector" onchange="changeRole(this.value)" class="bg-white border border-gray-300 text-sm rounded-md px-3 py-1.5 outline-none focus:border-brand-500">
+                                <option value="client">Client</option>
+                                <option value="agent">Agent</option>
+                            </select>
+                        </div>
+
+                        <form class="space-y-5">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 tracking-wider mb-2">FULL NAME</label>
+                                <input type="text" placeholder="full name" class="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-slate-700 outline-none focus:border-brand-500 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 tracking-wider mb-2">EMAIL</label>
+                                <input type="email" placeholder="you@example.com" class="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-slate-700 outline-none focus:border-brand-500 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 tracking-wider mb-2">CONTACT (PHONE / WHATSAPP)</label>
+                                <input type="text" placeholder="phone or WhatsApp handle" class="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-slate-700 outline-none focus:border-brand-500 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 tracking-wider mb-2">TEAMS</label>
+                                <input type="text" placeholder="name@company.com" class="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-slate-700 outline-none focus:border-brand-500 text-sm">
+                            </div>
+
+                            <div class="pt-4 flex justify-end">
+                                <button type="button" class="bg-brand-500 hover:bg-brand-600 text-white font-medium rounded-lg px-6 py-2.5 shadow-sm transition">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- Floating Bottom Bar (Image 5) -->
+        <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-white rounded-full shadow-[0_5px_20px_rgba(0,0,0,0.15)] border border-gray-100 flex items-center justify-between px-2 py-2 w-11/12 max-w-sm z-40">
+            <button class="w-10 h-10 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center"><i class="fas fa-chevron-left"></i></button>
+            <div class="flex items-center gap-2 font-bold text-slate-800">
+                <i class="fas fa-download text-sm"></i> rsayel.org <i class="fas fa-redo text-sm ml-2 text-slate-400"></i>
+            </div>
+            <button class="w-10 h-10 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center"><i class="fas fa-ellipsis-h"></i></button>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // --- STATE MANAGEMENT ---
+        let currentRole = 'client';
+
+        // --- DOM ELEMENTS ---
+        const loginView = document.getElementById('login-view');
+        const appView = document.getElementById('app-view');
+        const loginForm = document.getElementById('login-form');
+        
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        
+        const profileDropdownBtn = document.getElementById('profile-dropdown-btn');
+        const profileDropdown = document.getElementById('profile-dropdown');
+
+        const dashboardContent = document.getElementById('dashboard-content');
+        const profileContent = document.getElementById('profile-content');
+
+        const menuUsers = document.getElementById('menu-users');
+        const roleBadge = document.getElementById('role-badge');
+        const roleSelector = document.getElementById('role-selector');
+
+        // --- LOGIN LOGIC ---
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loginView.classList.add('hidden');
+            appView.classList.remove('hidden');
+            // Default to dashboard on login
+            switchView('dashboard');
+        });
+
+        function logout() {
+            appView.classList.add('hidden');
+            loginView.classList.remove('hidden');
+            profileDropdown.classList.add('hidden');
+        }
+
+        // --- NAVIGATION LOGIC (SPA) ---
+        function switchView(viewName) {
+            // Hide all views
+            dashboardContent.classList.add('hidden');
+            profileContent.classList.add('hidden');
+
+            // Show selected view
+            if (viewName === 'dashboard') {
+                dashboardContent.classList.remove('hidden');
+            } else if (viewName === 'profile') {
+                profileContent.classList.remove('hidden');
+            }
+            
+            // Close sidebar and dropdown if open
+            if (!sidebar.classList.contains('-translate-x-full')) toggleSidebar();
+            profileDropdown.classList.add('hidden');
+        }
+
+        // --- SIDEBAR LOGIC ---
+        document.getElementById('open-sidebar').addEventListener('click', toggleSidebar);
+
+        function toggleSidebar() {
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('hidden');
+            }
+        }
+
+        // --- DROPDOWN LOGIC ---
+        profileDropdownBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!profileDropdownBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+
+        // --- ROLE SIMULATION LOGIC ---
+        function changeRole(role) {
+            currentRole = role;
+            
+            // Update Badge
+            roleBadge.innerText = role.toUpperCase();
+            
+            if (role === 'agent') {
+                // Agent features
+                menuUsers.classList.remove('hidden'); // Show Users menu for Agents
+                roleBadge.className = "text-[10px] font-bold text-green-500 border border-green-500 rounded-full px-2 py-0.5 uppercase tracking-wider";
+            } else {
+                // Client features
+                menuUsers.classList.add('hidden'); // Hide Users menu for Clients
+                roleBadge.className = "text-[10px] font-bold text-brand-500 border border-brand-500 rounded-full px-2 py-0.5 uppercase tracking-wider";
+            }
+        }
+
+        // Initialize Role on load
+        changeRole('client');
+    </script>
+</body>
+</html>
